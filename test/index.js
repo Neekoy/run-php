@@ -76,5 +76,17 @@ describe('RUN-PHP', function(){
                .calculate(['a','b','c'], 2)
                .should.be.equal(5);
         });
+        
+        it('should be able to call my custom function ignore case', function(){
+            php.require('./php/my-function.php')
+               .CALCULATE(['a','b','c'], 2)
+               .should.be.equal(5);
+        });
+        
+        it('should be able to call my custom function ignore case 2', function(){
+            php.require('./php/my-function.php')
+               .Anothercalculate(['a','b','c'], 2)
+               .should.be.equal(5);
+        });
     });
 });
