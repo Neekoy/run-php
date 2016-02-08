@@ -1,19 +1,17 @@
 run-php
 =======
 
-Run PHP function/script with-in nodejs application. Please note that I never use
-this script on production system. So far this project is used to test my php
-application.
+Run PHP function/script with-in nodejs application. This is the `--harmony-proxies`
+version of [exec-php](https://www.npmjs.com/package/exec-php). If you're not 
+allowed to use such flag, please don't use this project.
 
-Please report any bug somewhere on the github page.
+Please report any bug somewhere on the github page ( you know where ).
 
-Installation
-------------
+## Installation
 
     npm install run-php --save
 
-Usage
------
+## Usage
 
     var php = require('run-php');
     
@@ -21,7 +19,7 @@ Usage
     php.binaryFile = '/usr/bin/php';
     
     // get output buffer
-    var str = php.eval('echo "a"').ob_get_content();
+    var str = php.eval('echo "a"').ob_get_contents();
     // str == 'a'
     
     // get returned function value
@@ -35,10 +33,74 @@ Usage
     //    <?php
     //    function myFunction($str){ return $str; }
 
-Note
-----
 
-You've to run your application with `--harmony-proxies` to be able to use this module.
-If you're not allowed to do so, please use [exec-php](https://www.npmjs.com/package/exec-php) instead.
+## Options
 
-    node --harmony-proxies app.js
+### cwd
+
+In case you've some script like `require('./file.php')` on your PHP file, it's always
+relative to cwd. You may want to set cwd of you required php file by running:
+
+    php = require('php');
+    
+    php.options.cwd = '/your/php/base/path';    // Set your php file CWD here
+    php.require('./file.php');
+
+### binaryFile
+
+The module need for php binary file to be able to run. Set your system php binary
+file with:
+
+    php.binaryFile = '/absolute/path/to/php/binary/file';
+
+## PHP Build-in Function
+
+Some PHP function imported to run-php method. They're:
+
+### eval
+
+This is still evil, but you could use it with a little angel to evaluate your 
+php script. It return object your source return.
+
+    php = require('run-php');
+    
+    var str = php.eval('return "lorem";');
+    // str == 'lorem'
+
+### ob_get_contents
+
+Get the last printed string of you php script
+
+    php = require('run-php');
+    
+    php.eval('echo "a";');
+    var str = php.ob_get_contents();
+    // str == 'a'
+
+### require
+
+Require your php file within nodejs application. It return `run-php` object.
+
+    php = require('run-php')
+    php.require('./file.php')
+
+### run
+
+Run the script. If you're calling script that return `run-php` object, your last
+action will be just saved to be executed later. Run `run` method to actually run
+them.
+
+    php = require('run-php')
+    php.require('./echo-somehthing.php') // save it for next execution.
+    php.run();                           // Actually run the php script
+
+## User Functions
+
+After requiring your file, the function is ready to call as if they're `run-php`
+method. Thanks to `Proxy`.
+
+    php = require('php')
+    php.require('./file-where-you-define-function.php');
+    
+    // call your function with args.
+    php.thisIsMyFunction(1,2,[1,2]);
