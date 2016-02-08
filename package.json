@@ -1,0 +1,29 @@
+{
+  "name": "run-php",
+  "version": "0.0.1",
+  "description": "Run PHP function/script within nodejs application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --harmony-proxies"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/iqbalfn/run-php.git"
+  },
+  "keywords": [
+    "nodejs",
+    "php"
+  ],
+  "author": "Iqbal Fauzi <iqbalfawz@gmail.com> (http://iqbalfn.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iqbalfn/run-php/issues"
+  },
+  "homepage": "https://github.com/iqbalfn/run-php#readme",
+  "devDependencies": {
+    "should": "^8.2.1"
+  },
+  "dependencies": {
+    "tmp": "0.0.28"
+  }
+}
