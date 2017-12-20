@@ -139,7 +139,7 @@ objPHP = {
     }
 };
 
-RunPHP = Proxy.create({
+RunPHP = new Proxy({}, {
     
     get: function(rcvr, prop){
         if(objPHP.hasOwnProperty(prop))
